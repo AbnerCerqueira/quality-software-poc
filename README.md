@@ -18,7 +18,7 @@ Norma amplamente citada na engenharia de software **ISO/IEC-25010**, que define 
 
 Uma forma intuitiva de entender a ISO/IEC-25010 é compará-la ao selo de uma geladeira.
 
-Quando você compra uma geladeira, ela não é avaliada apenas por gelar. Existem diversos critérios que você utiliza para mensurar a qualidade do produto com por exemplo a eficiência energética, durabilidade, nível de ruído, capacidade interna, etc.
+Quando você compra uma geladeira, ela não é avaliada apenas por gelar. Existem diversos critérios que você utiliza para mensurar a qualidade do produto como por exemplo a eficiência energética, durabilidade, nível de ruído, capacidade interna, etc.
 
 A norma faz exatamente isso com software. Ela define um conjunto de características para que funcionam como um "selo de qualidade"
 
@@ -50,7 +50,7 @@ Alguns tipos de testes
 
 # Técnicas antes de chegar no código
 
-A software não é somente um pedaço de código que faz algo, software é um conjunto de artefatos que servem para atender uma dor do usuário. Antes da implantação existem uma série de técnicas aplicadas, e no contexto ágil, elas ocorrem de forma incremental.
+Software não é somente um pedaço de código que faz algo, software é um conjunto de artefatos que servem para atender uma dor do usuário. Antes da implantação existem uma série de técnicas aplicadas, e no contexto ágil, elas ocorrem de forma incremental.
 
 ## Engenharia de requisitos
 
