@@ -14,7 +14,7 @@ public class CreateFormUseCase {
 
   public Form execute(CreateFormCommand cmd) {
 
-    Form maybeForm = Form.create(cmd.title(), cmd.status(), cmd.fields(), cmd.publishedAt());
+    Form maybeForm = Form.create(cmd.title(), cmd.status(), cmd.fields());
 
     return this.formRepository.save(maybeForm);
   }

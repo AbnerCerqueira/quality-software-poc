@@ -2,10 +2,7 @@ package com.abner.forms_api_poc.entities.form;
 
 import com.abner.forms_api_poc.entities.Base;
 import com.abner.forms_api_poc.entities.field.FieldBase;
-import com.abner.forms_api_poc.entities.form.exceptions.ConflictFieldsException;
-import com.abner.forms_api_poc.entities.form.exceptions.EnsureNotClosedException;
-import com.abner.forms_api_poc.entities.form.exceptions.MaxFieldsException;
-import com.abner.forms_api_poc.entities.form.exceptions.MinFieldsException;
+import com.abner.forms_api_poc.entities.form.exceptions.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,28 +20,48 @@ public class Form extends Base {
 
   public Instant closedAt;
 
-  private Form(String title, FormStatus status, List<FieldBase> fields, Instant publishedAt) {
+  public Form() {}
+
+  private Form(String title, FormStatus status, List<FieldBase> fields) {
     this.title = title;
+
+    if (status == FormStatus.PUBLISHED) {
+      this.publishForm();
+    } else {
+      this.status = status;
+    }
+
+    fields.forEach(this::addField);
+  }
+
+  public static Form create(String title, FormStatus status, List<FieldBase> fields) {
 
     if (status == FormStatus.CLOSED) {
       throw new EnsureNotClosedException("Não pode ser criado um formulário fechado");
     }
 
-    this.status = status;
-    fields.forEach(this::addField);
-    this.publishedAt = publishedAt;
-  }
-
-  public static Form create(
-      String title, FormStatus status, List<FieldBase> fields, Instant publishedAt) {
-
-    Form maybeForm = new Form(title, status, fields, publishedAt);
-
-    if (maybeForm.fields.isEmpty()) {
+    if (fields.isEmpty()) {
       throw new MinFieldsException("O fomulário precisa de pelo menos 1 campo");
     }
 
-    return maybeForm;
+    return new Form(title, status, fields);
+  }
+
+  public Form update(String title, List<FieldBase> fields) {
+    if (this.status != FormStatus.DRAFT) {
+      throw new ForbiddenStatusException("Somente formulários no status DRAFT podem ser editados");
+    }
+
+    if (title != null) {
+      this.title = title;
+    }
+
+    if (fields != null && !fields.isEmpty()) {
+      this.fields = new ArrayList<>();
+      fields.forEach(this::addField);
+    }
+
+    return this;
   }
 
   public void addField(FieldBase field) {
@@ -68,5 +85,10 @@ public class Form extends Base {
     }
 
     this.fields.add(field);
+  }
+
+  public void publishForm() {
+    this.status = FormStatus.PUBLISHED;
+    this.publishedAt = Instant.now();
   }
 }

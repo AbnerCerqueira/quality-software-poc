@@ -1,4 +1,4 @@
-package com.abner.forms_api_poc.e2e;
+package com.abner.forms_api_poc.e2e.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -16,7 +16,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-class BaseE2ETest {
+public class BaseE2ETest {
 
   @BeforeAll
   static void startContainer() {
@@ -28,11 +28,9 @@ class BaseE2ETest {
     registry.add("spring.mongodb.uri", MongoDBContainerSingleton::getUrl);
   }
 
-  @Autowired
-  MongoTemplate mongoTemplate;
+  @Autowired MongoTemplate mongoTemplate;
 
-  @LocalServerPort
-  int port;
+  @LocalServerPort int port;
 
   @BeforeEach
   void setup() {
@@ -41,11 +39,11 @@ class BaseE2ETest {
     RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
     RestAssured.config =
-      RestAssured.config()
-                 .objectMapperConfig(
-                   new ObjectMapperConfig()
-                     .jackson2ObjectMapperFactory(
-                       (cls, charset) -> new ObjectMapper().registerModule(new JavaTimeModule())));
+        RestAssured.config()
+            .objectMapperConfig(
+                new ObjectMapperConfig()
+                    .jackson2ObjectMapperFactory(
+                        (cls, charset) -> new ObjectMapper().registerModule(new JavaTimeModule())));
 
     cleanDatabase();
   }

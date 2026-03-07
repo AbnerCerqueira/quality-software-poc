@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
+import com.abner.forms_api_poc.e2e.config.BaseE2ETest;
 import com.abner.forms_api_poc.entities.field.http.dtos.CreateFieldTextRequest;
 import com.abner.forms_api_poc.entities.form.FormStatus;
 import com.abner.forms_api_poc.entities.form.http.dtos.CreateFormRequest;
@@ -11,7 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-class FormE2ETest extends BaseE2ETest {
+class CreateFormE2ETest extends BaseE2ETest {
   @Test
   void shouldCreateForm() {
     CreateFieldTextRequest field = new CreateFieldTextRequest();
