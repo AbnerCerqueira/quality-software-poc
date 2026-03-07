@@ -13,16 +13,6 @@ class Form {
   +closedAt: Date
   +createdAt: Date
   +updatedAt: Date
-  +addField(field: FieldBase): void
-  +publish(now: Date): void
-  +close(now: Date): void
-  +submit(answers: List<AnswerItem>, now: Date): Submission
-  -ensureDraft(): void
-  -ensurePublished(): void
-  -ensureCanClose(): void
-  -ensureFieldLimits(): void
-  -ensureNoDuplicateFields(): void
-  -validateAnswers(answers: List<AnswerItem>): void
 }
 
 abstract class FieldBase {
@@ -30,22 +20,18 @@ abstract class FieldBase {
   +key: String
   +label: String
   +required: Boolean
-  +validateAnswer(value: Object): void
 }
 
 class FieldText {
-  +validateAnswer(value: Object): void
 }
 
 class FieldSelect {
   +options: List<String>
-  +validateAnswer(value: Object): void
 }
 
 class FieldNumber {
   +min: Integer
   +max: Integer
-  +validateAnswer(value: Object): void
 }
 
 class Submission {

@@ -87,38 +87,27 @@ Auxilia na definição da estratégia de testes futura, os esforços precisam se
 
 Neste repositório estou aplicando os conceitos usando um sistema de formulários. Com o objetivo de estudo com clareza e com foco no conceito, é um sistema sem login de usuário e sem regras rígidas para agilizar o código de exemplo
 
-## Requisitos funcionais (RF)
-| ID | Título | Descrição |
-| :---- | :---- | :---- |
-| **RF-01** | Criar formulário | O sistema deve permitir que formulários sejam criados em estado DRAFT. |
-| **RF-02** | Adicionar campos ao formulário | O sistema deve permitir adicionar novos campos ao formulário enquanto este estiver em estado DRAFT. |
-| **RF-03** | Publicar formulário PUBLISHED | O sistema deve permitir que formulários sejam publicados |
-| **RF-04** | Submeter respostas ao formulário | O sistema deve permitir que formulários sejam preenchidos e submetidos. |
-| **RF-05** | Listar respostas de um formulários | O sistema deve permitir que as respostas dos formulários sejam visualizadas. |
-| **RF-06** | Fechar formulário CLOSED | O sistema deve permitir que o formulário seja encerrado |
-| **RF-07** | Impedir submissões após fechamento | O sistema deve impedir submissões quando o formulário estiver CLOSED |
-
-## Regras de negócio (RN)
-| ID | Título | Descrição |
-| :---- | :---- | :---- |
-| **RN-01** | Edição de formulário | Apenas formulários com status DRAFT podem ser modificados. |
-| **RN-02** | Submissão de respostas | Apenas formulários com status PUBLISHED podem receber respostas |
-| **RN-03** | Após fechar formulário | Formulários com status CLOSED não podem ser abertos novamente |
-| **RN-04** | Campos obrigatórios | Campos obrigatórios precisam estar sempre presentes na submissão |
-| **RN-05** | Campos numéricos | Campos numéricos devem respeitar o mínimo e máximo definidos |
-| **RN-06** | Campos select | Campos do tipo select devem aceitar apenas valores pré-definidos |
-| **RN-07** | Quantidade de campos | Formulários devem ter no mínimo 1 campo e no máximo 100 |
-| **RN-08** | Integridade das respostas | Submissões de respostas devem conter somente campos que existem no formulário |
-| **RN-09** | Duplicatas de campos | Não devem existir campos iguais dentro do mesmo formulário |
-
-## Requisitos não funcionais (RNF)
-| ID | Título | Descrição |
-| :---- | :---- | :---- |
-| **RNF-01** | Paginação | Os endpoints de GET devem ter opção para paginação das respostas |
-
+## [Requisitos e regras de negócio](./docs/requisitos.md)
 
 ## Modelo C4
 Para documentar a arquitetura de forma clara, adotei o modelo C4.
 
 ### Nível 4 - Código
 ![c4-codigo](./assets/c4-codigo.png)
+
+## [User Stories + BDD](./docs/user-histories.md)
+
+---
+
+# Implementação
+Para essa prova de conceito decidi utilizar Java com Spring boot
+
+## Tecnologias Utilizadas
+
+### Backend
+- Java 21
+- Spring Boot 4.0.3
+- MongoDB 7
+- Maven
+- Testcontainers
+- RestAssured

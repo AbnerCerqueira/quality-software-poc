@@ -1,10 +1,46 @@
 # Backend
 
-This backend uses Maven with Google style as baseline for formatting and linting.
-
 ## Getting started
 
+### Pré-requisitos
+- Docker 29
+- Java 21
+- MongoDB 7
+
+### Iniciar MongoDB
+
+```bash
+docker compose up -d
+```
+
+### Rodar aplicação
+
+```bash
+./mvnw spring-boot:run
+```
+
+### Rodar testes
+
+```bash
+./mvnw test
+```
+
+### Swagger
+
+A documentação da API está disponível em:
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+Documentação OpenAPI em JSON:
+
+```
+http://localhost:8080/api-docs
+```
+
 ## Code style, linting and format
+This backend uses Maven with Google style as baseline for formatting and linting.
 
 This project uses:
 
@@ -62,9 +98,3 @@ Project-level customizations (versioned in repository):
 - [ ] Validar avisos no editor e em `Problems/Inspections`
 - [ ] Rodar `./mvnw spotless:check`
 - [ ] Rodar `./mvnw -DskipTests verify`
-
-## Fluxo diario
-
-- Antes de commit: `./mvnw spotless:apply`
-- Antes de PR: `./mvnw -DskipTests verify`
-- Se aparecer erro de estilo: corrigir na IDE e repetir `./mvnw spotless:apply`
