@@ -31,7 +31,7 @@ class CreateFormE2ETest extends BaseE2ETest {
         .then()
         .statusCode(HttpStatus.CREATED.value())
         .body("title", equalTo("Meu Formulário"))
-        .body("status", equalTo("DRAFT"));
+        .body("status", equalTo(FormStatus.DRAFT.value()));
   }
 
   @Test
@@ -52,7 +52,7 @@ class CreateFormE2ETest extends BaseE2ETest {
         .then()
         .statusCode(HttpStatus.CREATED.value())
         .body("title", equalTo("Meu Formulário"))
-        .body("status", equalTo("PUBLISHED"))
+        .body("status", equalTo(FormStatus.PUBLISHED.value()))
         .body("publishedAt", notNullValue());
   }
 

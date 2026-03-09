@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 import com.abner.forms_api_poc.e2e.config.BaseE2ETest;
 import com.abner.forms_api_poc.entities.field.http.dtos.CreateFieldNumberRequest;
 import com.abner.forms_api_poc.entities.field.http.dtos.CreateFieldTextRequest;
+import com.abner.forms_api_poc.entities.form.FormStatus;
 import com.abner.forms_api_poc.entities.form.http.dtos.FormDTO;
 import com.abner.forms_api_poc.entities.form.http.dtos.UpdateFormRequest;
 import java.util.List;
@@ -35,7 +36,7 @@ class UpdateFormByIdE2ETest extends BaseE2ETest {
         .then()
         .statusCode(HttpStatus.OK.value())
         .body("title", equalTo("Novo Título"))
-        .body("status", equalTo("DRAFT"));
+        .body("status", equalTo(FormStatus.DRAFT.value()));
   }
 
   @Test
@@ -54,6 +55,7 @@ class UpdateFormByIdE2ETest extends BaseE2ETest {
         .put("/api/form/" + form.id())
         .then()
         .statusCode(HttpStatus.OK.value())
+        .body("status", equalTo(FormStatus.DRAFT.value()))
         .body("fieldDTOList", hasSize(1))
         .body("fieldDTOList[0].key", equalTo("nome"))
         .body("fieldDTOList[0].label", equalTo("Nome"));
@@ -78,6 +80,7 @@ class UpdateFormByIdE2ETest extends BaseE2ETest {
         .then()
         .statusCode(HttpStatus.OK.value())
         .body("title", equalTo("Novo Título"))
+        .body("status", equalTo(FormStatus.DRAFT.value()))
         .body("fieldDTOList", hasSize(1))
         .body("fieldDTOList[0].key", equalTo("nota"))
         .body("fieldDTOList[0].label", equalTo("Nota"))
