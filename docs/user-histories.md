@@ -48,3 +48,21 @@ Para posteriormente publicá-lo
 * Dado que foi selecionado um formulário em status DRAFT
 * Quando ocorrer a edição
 * Então o formulário é editado
+
+## US-03 Publicar formulário
+
+### Cenários
+#### 1. RF-03, RN-03
+ 
+* Dado que um formulário está em status DRAFT
+* Quando o usuário publicá-lo
+* Então o formulário muda de status e passa aceitar respostas
+
+## US-04 Fechar formulário
+
+### Cenários
+#### 1. RF-06
+ 
+* Dado que um formulário está em status PUBLISHED
+* Quando o usuário fechá-lo
+* Então o formulário muda de status e deixa de aceitar respostas

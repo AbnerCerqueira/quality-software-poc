@@ -8,6 +8,7 @@ import com.abner.forms_api_poc.entities.field.FieldText;
 import com.abner.forms_api_poc.entities.form.Form;
 import com.abner.forms_api_poc.entities.form.FormStatus;
 import com.abner.forms_api_poc.entities.form.exceptions.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -141,5 +142,76 @@ class FormTest {
     Form updatedForm = newForm.update(null, newFields);
 
     assertEquals(newFields, updatedForm.fields);
+  }
+
+  @Test
+  void shouldPublishForm() {
+    String title = "titulo";
+    FormStatus status = FormStatus.DRAFT;
+    List<FieldBase> fields = List.of(FieldText.create("key", "label", true));
+
+    Form form = Form.create(title, status, fields);
+
+    form.publish();
+
+    assertEquals(FormStatus.PUBLISHED, form.status);
+    assertNotNull(form.publishedAt);
+  }
+
+  @Test
+  void shouldNotPublishClosedForm() {
+    String title = "titulo";
+    FormStatus status = FormStatus.DRAFT;
+    List<FieldBase> fields = List.of(FieldText.create("key", "label", true));
+
+    Form form = Form.create(title, status, fields);
+
+    form.close();
+    assertThrows(ForbiddenStatusException.class, form::publish);
+  }
+
+  @Test
+  void shouldNotPublishFormTwoTimes() {
+    String title = "titulo";
+    FormStatus status = FormStatus.DRAFT;
+    List<FieldBase> fields = List.of(FieldText.create("key", "label", true));
+
+    Form form = Form.create(title, status, fields);
+
+    form.publish();
+    Instant firstPublish = form.publishedAt;
+
+    form.publish();
+
+    assertEquals(form.publishedAt, firstPublish);
+  }
+
+  @Test
+  void shouldCloseForm() {
+    String title = "titulo";
+    FormStatus status = FormStatus.DRAFT;
+    List<FieldBase> fields = List.of(FieldText.create("key", "label", true));
+
+    Form form = Form.create(title, status, fields);
+
+    form.close();
+
+    assertEquals(FormStatus.CLOSED, form.status);
+    assertNotNull(form.closedAt);
+  }
+
+  @Test
+  void shouldNotCloseFormTwoTimes() {
+    String title = "titulo";
+    FormStatus status = FormStatus.DRAFT;
+    List<FieldBase> fields = List.of(FieldText.create("key", "label", true));
+
+    Form form = Form.create(title, status, fields);
+
+    form.close();
+    Instant firstClose = form.closedAt;
+
+    assertEquals(FormStatus.CLOSED, form.status);
+    assertEquals(form.closedAt, firstClose);
   }
 }

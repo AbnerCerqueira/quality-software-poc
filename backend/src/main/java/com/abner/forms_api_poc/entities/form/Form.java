@@ -26,7 +26,7 @@ public class Form extends Base {
     this.title = title;
 
     if (status == FormStatus.PUBLISHED) {
-      this.publishForm();
+      this.publish();
     } else {
       this.status = status;
     }
@@ -87,8 +87,25 @@ public class Form extends Base {
     this.fields.add(field);
   }
 
-  public void publishForm() {
+  public void publish() {
+    if (this.status == FormStatus.PUBLISHED) {
+      return;
+    }
+
+    if (this.status == FormStatus.CLOSED) {
+      throw new ForbiddenStatusException("Formulários fechados não podem ser abertos novamente");
+    }
+
     this.status = FormStatus.PUBLISHED;
     this.publishedAt = Instant.now();
+  }
+
+  public void close() {
+    if (this.status == FormStatus.CLOSED) {
+      return;
+    }
+
+    this.status = FormStatus.CLOSED;
+    this.closedAt = Instant.now();
   }
 }
