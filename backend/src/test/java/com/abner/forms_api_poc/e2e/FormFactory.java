@@ -77,4 +77,42 @@ public class FormFactory {
 
     return closedForm.as(FormDTO.class);
   }
+
+  public static FormDTO createPublished() {
+    String title = "Meu formulário";
+    CreateFieldTextRequest field = new CreateFieldTextRequest();
+    field.key = "teste";
+    field.label = "Teste";
+    field.required = false;
+
+    CreateFormRequest request =
+        new CreateFormRequest(title, FormStatus.DRAFT, List.of(field), null, null);
+
+    ExtractableResponse<Response> response =
+        given()
+            .contentType("application/json")
+            .body(request)
+            .when()
+            .post("/api/form")
+            .then()
+            .statusCode(HttpStatus.CREATED.value())
+            .body("id", notNullValue())
+            .extract();
+
+    FormDTO createdForm = response.as(FormDTO.class);
+
+    ExtractableResponse<Response> closedForm =
+        given()
+            .contentType("application/json")
+            .when()
+            .patch("/api/form/publish/" + createdForm.id())
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("id", equalTo(createdForm.id()))
+            .body("status", equalTo(FormStatus.PUBLISHED.value()))
+            .body("publishedAt", notNullValue())
+            .extract();
+
+    return closedForm.as(FormDTO.class);
+  }
 }
