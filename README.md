@@ -111,3 +111,4 @@ Para essa prova de conceito decidi utilizar Java com Spring boot
 - Maven
 - Testcontainers
 - RestAssured
+- JaCoCo
