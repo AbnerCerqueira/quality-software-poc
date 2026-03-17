@@ -20,7 +20,7 @@ Uma forma intuitiva de entender a ISO/IEC-25010 é compará-la ao selo de uma ge
 
 Quando você compra uma geladeira, ela não é avaliada apenas por gelar. Existem diversos critérios que você utiliza para mensurar a qualidade do produto como por exemplo a eficiência energética, durabilidade, nível de ruído, capacidade interna, etc.
 
-A norma faz exatamente isso com software. Ela define um conjunto de características para que funcionam como um "selo de qualidade"
+A norma faz exatamente isso com software. Ela define um conjunto de características que funcionam como um "selo de qualidade".
 
 Exemplos:
 
@@ -50,64 +50,40 @@ Alguns tipos de testes
 
 # Técnicas antes de chegar no código
 
-Software não é somente um pedaço de código que faz algo, software é um conjunto de artefatos que servem para atender uma dor do usuário. Antes da implantação existem uma série de técnicas aplicadas, e no contexto ágil, elas ocorrem de forma incremental.
+Software não é somente um pedaço de código que faz algo, software é um conjunto de artefatos que servem para atender uma dor do usuário. Antes da implantação existem uma série de técnicas aplicadas, e no contexto ágil, elas ocorrem de forma incremental. Segue abaixo técnicas de documentação utilizadas
 
-## Engenharia de requisitos
+## Histórias de usuário + Análise de risco
 
-- Casos de uso
-- Histórias de usuário
-- Prototipação
+Com base nos requisitos funcionais e regras de negócio, desenvolvi histórias de usuário para mostrar a visão do usuário final, evitando ambiguidade e inconsistência. A partir das histórias de usuário geradas, fiz uma análise de riso utilizando a técnica que gera `risco = probabilidade X impacto` (probabilidade seria a frequência com que a operação ocorre e impacto seria o impacto da falha) e com base no resultado, pude definir uma estratégia de testes futura, direcionando os esforços onde a falha é critica
 
-Evita ambiguidade e inconsistência.
+![história de usário exemplo](./assets/historia-de-usuario-exemplo.png)
+
+## Casos de testes
+
+Utilizei BDD para estruturar os casos de teste. Direcionei meus esforços para cobrir os testes de acordo com o quão crítica é aquela funcionalidade. Se for muito crítica, cobrir todos os casos: happy path, cenário funcional, cenário de exceção, cenário de borda.
 
 ## Modelagem
 
-- Diagrama de classes
-- Diagrama de casos de uso
+Utilizando o modelo C4 desenvolvi um rascunho da arquitetura. Servindo para avaliar arquitetura e identificar falhas conceituais.
 
-Serve para avaliar arquitetura e identificar falhas conceituais. Utiliza bastante linguagem UML.
-
-## Revisão
-
-- Peer review
-- Walkthrough
-- Fagan Inspection
-
-Removem defeitos antes de chegar no código. São métodos de análise aplicados a requisitos e modelos.
-
-## Análise de riscos
-
-- Identificação de riscos técnicos
-- Avaliação do impacto
-- Planejamento de mitigação
-
-Auxilia na definição da estratégia de testes futura, os esforços precisam ser direcionados onde a falha é critica
+> Nível 4 - código
+> ![c4-codigo](./assets/c4-codigo.png)
 
 # Implementação
 
-Neste repositório estou aplicando os conceitos usando um sistema de formulários. Com o objetivo de estudo com clareza e com foco no conceito, é um sistema sem login de usuário e sem regras rígidas para agilizar o código de exemplo
+Finalmente chegando na implementação, podemos utilizar a documentação levantada anteriormente para construir nosso sistema.
 
-## [Requisitos e regras de negócio](./docs/requisitos.md)
+## Estratégia de testes
 
-## Modelo C4
-Para documentar a arquitetura de forma clara, adotei o modelo C4.
-
-### Nível 4 - Código
-![c4-codigo](./assets/c4-codigo.png)
-
-## [User Stories + BDD](./docs/user-histories.md)
-
----
-
-# Implementação
-Para essa prova de conceito decidi utilizar Java com Spring boot
+Decidi utilizar uma abordagem de domínio rico, onde consigo encapsular minhas regras de negócio no domínio. Essa abordagem aumentou a testabilidade do código e velocidade dos testes pois pude validar maior parte dos cenários de teste no teste unitário
 
 ## Tecnologias Utilizadas
 
 ### Backend
+
 - Java 21
 - Spring Boot 4.0.3
-- MongoDB 7
+- MongoDB
 - Maven
 - Testcontainers
 - RestAssured
