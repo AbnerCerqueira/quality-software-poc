@@ -6,10 +6,12 @@ import com.abner.forms_api_poc.entities.field.FieldNumber;
 import com.abner.forms_api_poc.entities.field.FieldSelect;
 import com.abner.forms_api_poc.entities.field.FieldText;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class FieldTest {
   @Test
+  @DisplayName("happy path: cria campo texto válido")
   public void shouldCreateTextField() {
     String key = "nome";
     String label = "Qual o seu nome?";
@@ -23,6 +25,7 @@ public class FieldTest {
   }
 
   @Test
+  @DisplayName("happy path: cria campo número válido")
   public void shouldCreateNumberField() {
     String key = "avaliacção";
     String label = "De 0 a 5 como você avalia esta implementação?";
@@ -40,6 +43,7 @@ public class FieldTest {
   }
 
   @Test
+  @DisplayName("happy path: cria campo select válido")
   public void shouldCreateSelectField() {
     String key = "localizacao";
     String label = "Qual estado você mora?";

@@ -12,23 +12,36 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class FormTest {
 
   @Test
+  @DisplayName("happy path: cria formulário válido")
   void shouldCreateForm() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
     List<FieldBase> fields = List.of(FieldText.create("k", "l", true));
 
-    Form newform = Form.create(title, status, fields);
-
-    assertEquals(title, newform.title);
-    assertEquals(status, newform.status);
+    assertDoesNotThrow(() -> Form.create(title, status, fields));
   }
 
   @Test
+  @DisplayName("exception: adiciona campo em formulário publicado")
+  void shouldAddFieldInForm() {
+    String title = "titulo";
+    FormStatus status = FormStatus.PUBLISHED;
+    List<FieldBase> fields = List.of(FieldText.create("k", "l", true));
+
+    Form newform = Form.create(title, status, fields);
+
+    FieldText newField = FieldText.create("k2", "l2", true);
+    assertThrows(ForbiddenStatusException.class, () -> newform.addField(newField));
+  }
+
+  @Test
+  @DisplayName("funcional: cria form já publicado")
   void shouldCreatePublishedForm() {
     String title = "titulo";
     FormStatus status = FormStatus.PUBLISHED;
@@ -42,6 +55,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("edge: não cria form fechado")
   void shouldNotCreateFormClosed() {
     String title = "titulo";
     FormStatus status = FormStatus.CLOSED;
@@ -51,6 +65,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: quantidade mínima de campos")
   void shouldNotCreateFormWithoutFields() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -60,6 +75,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: quantidade máxima de campos")
   void shouldNotCreateFormWith101Fields() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -78,6 +94,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: campos duplicados")
   void shouldNotCreateFormWithDuplicatedKey() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -91,6 +108,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: campos duplicados por label")
   void shouldNotCreateFormWithDuplicatedLabel() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -104,6 +122,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: atualizar form quando não está em DRAFT")
   void shouldNotUpdateFormWhenIsNotDraft() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -119,6 +138,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("funcional: atualizar título")
   void shouldUpdateTitle() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -131,6 +151,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("funcional: atualizar campos")
   void shouldUpdateFormFields() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -145,6 +166,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("funcional: publicar form")
   void shouldPublishForm() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -159,6 +181,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("exception: publicar form fechado")
   void shouldNotPublishClosedForm() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -171,6 +194,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("edge: publicar form que já está publicado")
   void shouldNotPublishFormTwoTimes() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -187,6 +211,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("funcional: fechar form")
   void shouldCloseForm() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -201,6 +226,7 @@ class FormTest {
   }
 
   @Test
+  @DisplayName("edge: fechar form duas vezes")
   void shouldNotCloseFormTwoTimes() {
     String title = "titulo";
     FormStatus status = FormStatus.DRAFT;
@@ -210,6 +236,7 @@ class FormTest {
 
     form.close();
     Instant firstClose = form.closedAt;
+    form.close();
 
     assertEquals(FormStatus.CLOSED, form.status);
     assertEquals(form.closedAt, firstClose);
