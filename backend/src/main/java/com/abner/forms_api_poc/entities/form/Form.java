@@ -25,13 +25,15 @@ public class Form extends Base {
   private Form(String title, FormStatus status, List<FieldBase> fields) {
     this.title = title;
 
+    this.status = FormStatus.DRAFT;
+    fields.forEach(this::addField);
+    this.status = null;
+
     if (status == FormStatus.PUBLISHED) {
       this.publish();
     } else {
       this.status = status;
     }
-
-    fields.forEach(this::addField);
   }
 
   public static Form create(String title, FormStatus status, List<FieldBase> fields) {
@@ -65,6 +67,11 @@ public class Form extends Base {
   }
 
   public void addField(FieldBase field) {
+    if (this.status != FormStatus.DRAFT) {
+      throw new ForbiddenStatusException(
+          "Somente formulários em DRAFT podem adicionar novos campos");
+    }
+
     if (this.fields.size() == 100) {
       throw new MaxFieldsException("Este fomulário atingiu o máximo de campos suportados");
     }
