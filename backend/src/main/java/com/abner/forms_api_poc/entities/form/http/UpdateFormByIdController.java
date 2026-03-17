@@ -4,6 +4,7 @@ import com.abner.forms_api_poc.entities.form.Form;
 import com.abner.forms_api_poc.entities.form.http.dtos.FormDTO;
 import com.abner.forms_api_poc.entities.form.http.dtos.UpdateFormRequest;
 import com.abner.forms_api_poc.entities.form.usecases.UpdateFormByIdUseCase;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,10 @@ public class UpdateFormByIdController extends FormController {
   }
 
   @PutMapping("/{id}")
+  @ApiResponse(responseCode = "200", description = "Formulario editado com sucesso")
+  @ApiResponse(responseCode = "400", description = "Dados invalidos")
+  @ApiResponse(responseCode = "404", description = "Form não encontrado")
+  @ApiResponse(responseCode = "409", description = "Campos duplicados")
   public ResponseEntity<FormDTO> handle(
       @Valid @RequestBody UpdateFormRequest req, @PathVariable String id) {
     Form updatedForm = this.updateFormByIdUseCase.execute(id, req.toCommand());
